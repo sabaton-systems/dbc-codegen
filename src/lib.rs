@@ -773,12 +773,15 @@ fn render_multiplexor_signal(
 fn be_start_end_bit(signal: &Signal, msg: &Message) -> Result<(u64, u64)> {
     let err = "calculating start bit";
 
+    println!("Signal is {:?}",signal);
     let x = signal.start_bit.checked_div(8).context(err)?;
-    let x = x.checked_mul(8).context(err)?;
+    // let x = x.checked_mul(8).context(err)?;
 
     let y = signal.start_bit.checked_rem(8).context(err)?;
-    let y = 7u64.checked_sub(y).context(err)?;
-
+    // let y = 7u64.checked_sub(y).context(err)?;
+    let x = signal.start_bit;
+    let y = 0;
+    println!("x = {x} and y= {y}");
     let start_bit = x.checked_add(y).context(err)?;
     let end_bit = start_bit
         .checked_add(signal.signal_size)
@@ -786,6 +789,7 @@ fn be_start_end_bit(signal: &Signal, msg: &Message) -> Result<(u64, u64)> {
 
     let msg_bits = msg.message_size().checked_mul(8).unwrap();
 
+    println!("startbit = {start_bit},endbit = {end_bit} and msgbits = {msg_bits}");
     ensure!(
         start_bit <= msg_bits,
         "signal starts at {}, but message is only {} bits",

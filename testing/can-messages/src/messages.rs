@@ -275,7 +275,7 @@ impl Bar {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn one_raw(&self) -> u8 {
-        let signal = self.raw.view_bits::<Msb0>()[8..10].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[15..17].load_be::<u8>();
 
         let factor = 1;
         u8::from(signal).saturating_mul(factor).saturating_add(0)
@@ -293,7 +293,7 @@ impl Bar {
             .ok_or(CanError::ParameterOutOfRange { message_id: 512 })?;
         let value = (value / factor) as u8;
 
-        self.raw.view_bits_mut::<Msb0>()[8..10].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[15..17].store_be(value);
         Ok(())
     }
 
@@ -318,7 +318,7 @@ impl Bar {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn two_raw(&self) -> f32 {
-        let signal = self.raw.view_bits::<Msb0>()[0..8].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[7..15].load_be::<u8>();
 
         let factor = 0.39_f32;
         let offset = 0_f32;
@@ -335,7 +335,7 @@ impl Bar {
         let offset = 0_f32;
         let value = ((value - offset) / factor) as u8;
 
-        self.raw.view_bits_mut::<Msb0>()[0..8].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[7..15].store_be(value);
         Ok(())
     }
 
@@ -347,7 +347,7 @@ impl Bar {
     /// - Receivers: Dolor
     #[inline(always)]
     pub fn three(&self) -> BarThree {
-        let signal = self.raw.view_bits::<Msb0>()[10..13].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[13..16].load_be::<u8>();
 
         match signal {
             0 => BarThree::Off,
@@ -368,7 +368,7 @@ impl Bar {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn three_raw(&self) -> u8 {
-        let signal = self.raw.view_bits::<Msb0>()[10..13].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[13..16].load_be::<u8>();
 
         let factor = 1;
         u8::from(signal).saturating_mul(factor).saturating_add(0)
@@ -386,7 +386,7 @@ impl Bar {
             .ok_or(CanError::ParameterOutOfRange { message_id: 512 })?;
         let value = (value / factor) as u8;
 
-        self.raw.view_bits_mut::<Msb0>()[10..13].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[13..16].store_be(value);
         Ok(())
     }
 
@@ -398,7 +398,7 @@ impl Bar {
     /// - Receivers: Dolor
     #[inline(always)]
     pub fn four(&self) -> BarFour {
-        let signal = self.raw.view_bits::<Msb0>()[13..15].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[10..12].load_be::<u8>();
 
         match signal {
             0 => BarFour::Off,
@@ -419,7 +419,7 @@ impl Bar {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn four_raw(&self) -> u8 {
-        let signal = self.raw.view_bits::<Msb0>()[13..15].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[10..12].load_be::<u8>();
 
         let factor = 1;
         u8::from(signal).saturating_mul(factor).saturating_add(0)
@@ -437,7 +437,7 @@ impl Bar {
             .ok_or(CanError::ParameterOutOfRange { message_id: 512 })?;
         let value = (value / factor) as u8;
 
-        self.raw.view_bits_mut::<Msb0>()[13..15].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[10..12].store_be(value);
         Ok(())
     }
 
@@ -449,7 +449,7 @@ impl Bar {
     /// - Receivers: Dolor
     #[inline(always)]
     pub fn xtype(&self) -> BarType {
-        let signal = self.raw.view_bits::<Msb0>()[25..26].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[30..31].load_be::<u8>();
 
         match signal {
             0 => BarType::X0off,
@@ -468,7 +468,7 @@ impl Bar {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn xtype_raw(&self) -> bool {
-        let signal = self.raw.view_bits::<Msb0>()[25..26].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[30..31].load_be::<u8>();
 
         signal == 1
     }
@@ -477,7 +477,7 @@ impl Bar {
     #[inline(always)]
     pub fn set_xtype(&mut self, value: bool) -> Result<(), CanError> {
         let value = value as u8;
-        self.raw.view_bits_mut::<Msb0>()[25..26].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[30..31].store_be(value);
         Ok(())
     }
 }
@@ -621,7 +621,7 @@ impl X4wd {
     /// - Receivers: Dolor
     #[inline(always)]
     pub fn x4drive(&self) -> X4wd4drive {
-        let signal = self.raw.view_bits::<Msb0>()[10..13].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[13..16].load_be::<u8>();
 
         match signal {
             0 => X4wd4drive::Off,
@@ -642,7 +642,7 @@ impl X4wd {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn x4drive_raw(&self) -> u8 {
-        let signal = self.raw.view_bits::<Msb0>()[10..13].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[13..16].load_be::<u8>();
 
         let factor = 1;
         u8::from(signal).saturating_mul(factor).saturating_add(0)
@@ -660,7 +660,7 @@ impl X4wd {
             .ok_or(CanError::ParameterOutOfRange { message_id: 768 })?;
         let value = (value / factor) as u8;
 
-        self.raw.view_bits_mut::<Msb0>()[10..13].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[13..16].store_be(value);
         Ok(())
     }
 }
@@ -779,7 +779,7 @@ impl Amet {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn one_raw(&self) -> u8 {
-        let signal = self.raw.view_bits::<Msb0>()[8..10].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[15..17].load_be::<u8>();
 
         let factor = 1;
         u8::from(signal).saturating_mul(factor).saturating_add(0)
@@ -797,7 +797,7 @@ impl Amet {
             .ok_or(CanError::ParameterOutOfRange { message_id: 1024 })?;
         let value = (value / factor) as u8;
 
-        self.raw.view_bits_mut::<Msb0>()[8..10].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[15..17].store_be(value);
         Ok(())
     }
 
@@ -822,7 +822,7 @@ impl Amet {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn two_raw(&self) -> f32 {
-        let signal = self.raw.view_bits::<Msb0>()[0..8].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[7..15].load_be::<u8>();
 
         let factor = 0.39_f32;
         let offset = 0_f32;
@@ -839,7 +839,7 @@ impl Amet {
         let offset = 0_f32;
         let value = ((value - offset) / factor) as u8;
 
-        self.raw.view_bits_mut::<Msb0>()[0..8].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[7..15].store_be(value);
         Ok(())
     }
 
@@ -864,7 +864,7 @@ impl Amet {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn three_raw(&self) -> u8 {
-        let signal = self.raw.view_bits::<Msb0>()[19..22].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[20..23].load_be::<u8>();
 
         let factor = 1;
         u8::from(signal).saturating_mul(factor).saturating_add(0)
@@ -882,7 +882,7 @@ impl Amet {
             .ok_or(CanError::ParameterOutOfRange { message_id: 1024 })?;
         let value = (value / factor) as u8;
 
-        self.raw.view_bits_mut::<Msb0>()[19..22].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[20..23].store_be(value);
         Ok(())
     }
 
@@ -907,7 +907,7 @@ impl Amet {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn four_raw(&self) -> u8 {
-        let signal = self.raw.view_bits::<Msb0>()[25..27].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[30..32].load_be::<u8>();
 
         let factor = 1;
         u8::from(signal).saturating_mul(factor).saturating_add(0)
@@ -925,7 +925,7 @@ impl Amet {
             .ok_or(CanError::ParameterOutOfRange { message_id: 1024 })?;
         let value = (value / factor) as u8;
 
-        self.raw.view_bits_mut::<Msb0>()[25..27].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[30..32].store_be(value);
         Ok(())
     }
 
@@ -950,7 +950,7 @@ impl Amet {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn five_raw(&self) -> bool {
-        let signal = self.raw.view_bits::<Msb0>()[47..48].load_be::<u8>();
+        let signal = self.raw.view_bits::<Msb0>()[40..41].load_be::<u8>();
 
         signal == 1
     }
@@ -959,7 +959,7 @@ impl Amet {
     #[inline(always)]
     pub fn set_five(&mut self, value: bool) -> Result<(), CanError> {
         let value = value as u8;
-        self.raw.view_bits_mut::<Msb0>()[47..48].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[40..41].store_be(value);
         Ok(())
     }
 }
@@ -1042,7 +1042,7 @@ impl Dolor {
     /// - Receivers: Vector__XXX
     #[inline(always)]
     pub fn one_float(&self) -> DolorOneFloat {
-        let signal = self.raw.view_bits::<Msb0>()[7..19].load_be::<u16>();
+        let signal = self.raw.view_bits::<Msb0>()[0..12].load_be::<u16>();
 
         match signal {
             3 => DolorOneFloat::Dolor,
@@ -1061,7 +1061,7 @@ impl Dolor {
     /// - Value type: Unsigned
     #[inline(always)]
     pub fn one_float_raw(&self) -> f32 {
-        let signal = self.raw.view_bits::<Msb0>()[7..19].load_be::<u16>();
+        let signal = self.raw.view_bits::<Msb0>()[0..12].load_be::<u16>();
 
         let factor = 0.5_f32;
         let offset = 0_f32;
@@ -1078,7 +1078,7 @@ impl Dolor {
         let offset = 0_f32;
         let value = ((value - offset) / factor) as u16;
 
-        self.raw.view_bits_mut::<Msb0>()[7..19].store_be(value);
+        self.raw.view_bits_mut::<Msb0>()[0..12].store_be(value);
         Ok(())
     }
 }
